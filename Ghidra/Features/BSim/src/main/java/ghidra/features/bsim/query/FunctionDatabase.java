@@ -19,6 +19,7 @@ import java.io.*;
 import java.util.*;
 
 import javax.xml.parsers.*;
+import javax.xml.XMLConstants;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -383,9 +384,16 @@ public interface FunctionDatabase extends AutoCloseable {
 	static boolean isConfigTemplate(File file) {
 
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(file);
+                       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                       factory.setFeature(javax.xml.XMLConstants.FEATURE_SECURE_PROCESSING, true);
+                       factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+                       factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+                       factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+                       factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+                       factory.setXIncludeAware(false);
+                       factory.setExpandEntityReferences(false);
+                       DocumentBuilder builder = factory.newDocumentBuilder();
+                       Document doc = builder.parse(file);
 
 			Element rootElem = doc.getDocumentElement();
 			if (rootElem.getTagName().equals("dbconfig")) {
