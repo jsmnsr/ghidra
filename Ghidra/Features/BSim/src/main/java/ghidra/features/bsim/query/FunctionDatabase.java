@@ -377,8 +377,9 @@ public interface FunctionDatabase extends AutoCloseable {
 	}
 
 	/**
-	 * Determines if a given xml file is a config template. This is done by opening the file
-	 * and checking for the presence of a {@code <dbconfig>} root tag.
+     * Determines if a given xml file is a config template. This method parses the XML
+     * in a secure manner (external entities and DTDs are disabled) and checks for the
+     * presence of a {@code <dbconfig>} root tag.
 	 * 
 	 * @param file the file to inspect
 	 * @return true if the file is config template
